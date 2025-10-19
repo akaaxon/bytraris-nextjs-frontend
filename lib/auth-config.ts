@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         const { email, password } = credentials as { email: string; password: string };
         try {
-          // 🔍 Find user by email
+          //  Find user by email
           const { data: user, error } = await supabase
             .from("users")
             .select("*")
@@ -22,17 +22,16 @@ export const authOptions: NextAuthOptions = {
             console.log("User not found");
             return null;
           }
-
-          // 🔐 Check password
+          
           const passwordMatch = await bcrypt.compare(password, user.password);
           if (!passwordMatch) {
             console.log("Invalid password");
             return null;
           }
 
-          // ✅ Return user object for NextAuth session
+         // User object 
           return {
-            id: user.id,       // Supabase uses 'id' instead of MongoDB _id
+            id: user.id,       
             name: user.name,
             email: user.email,
           };
